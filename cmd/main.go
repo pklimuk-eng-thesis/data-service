@@ -22,7 +22,7 @@ func main() {
 	initializeSensor("gas_sensor", dbService, r, "/gasSensor")
 	initializeSensor("doors_sensor", dbService, r, "/doorsSensor")
 
-	serviceAddress := setupServiceAddress("ADDRESS", ":8085")
+	serviceAddress := setupServiceAddress("ADDRESS", ":8087")
 	err := r.Run(serviceAddress)
 	if err != nil {
 		panic(err)
