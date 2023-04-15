@@ -7,8 +7,9 @@ import (
 	_ "github.com/lib/pq"
 	db "github.com/pklimuk-eng-thesis/data-service/pkg/db"
 	"github.com/pklimuk-eng-thesis/data-service/pkg/domain"
-	sHttp "github.com/pklimuk-eng-thesis/data-service/pkg/http"
-	"github.com/pklimuk-eng-thesis/data-service/pkg/service"
+	"github.com/pklimuk-eng-thesis/data-service/pkg/http"
+	sensorHttp "github.com/pklimuk-eng-thesis/data-service/pkg/http/sensor"
+	sensorService "github.com/pklimuk-eng-thesis/data-service/pkg/service/sensor"
 )
 
 func main() {
@@ -31,9 +32,9 @@ func main() {
 
 func initializeSensor(tableName string, db db.DBService, r *gin.Engine, groupName string) {
 	sensor := domain.Sensor{TableName: tableName}
-	sensorService := service.NewSensorService(&sensor, db)
-	sensorHandler := sHttp.NewSensorHandler(sensorService)
-	sHttp.SetupSensorRouter(r, sensorHandler, groupName)
+	sensorService := sensorService.NewSensorService(&sensor, db)
+	sensorHandler := sensorHttp.NewSensorHandler(sensorService)
+	http.SetupSensorRouter(r, sensorHandler, groupName)
 }
 
 func setupServiceAddress(identifier string, defaultAddress string) string {

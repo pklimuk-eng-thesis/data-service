@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/pklimuk-eng-thesis/data-service/pkg/domain"
-	"github.com/pklimuk-eng-thesis/data-service/pkg/service"
+	service "github.com/pklimuk-eng-thesis/data-service/pkg/service/sensor"
 )
 
 type SensorHandler struct {
