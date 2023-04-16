@@ -2,8 +2,8 @@ package db
 
 import (
 	"fmt"
-	"time"
 
+	dbUtils "github.com/pklimuk-eng-thesis/data-service/pkg/db/utils"
 	"github.com/pklimuk-eng-thesis/data-service/pkg/domain"
 )
 
@@ -25,7 +25,7 @@ func (s *dbService) GetLatestSensorDataByTableNameLimitN(tableName string, limit
 		if err != nil {
 			return nil, err
 		}
-		createdAtTime, err := parseTime(createdAt)
+		createdAtTime, err := dbUtils.ParseTime(createdAt)
 		if err != nil {
 			return nil, err
 		}
@@ -33,10 +33,6 @@ func (s *dbService) GetLatestSensorDataByTableNameLimitN(tableName string, limit
 			IsEnabled: isEnabled, Detected: detected})
 	}
 	return sensors, nil
-}
-
-func parseTime(t string) (time.Time, error) {
-	return time.Parse(time.RFC3339, t)
 }
 
 func (s *dbService) AddNewRecordToSensorTable(tableName string, isEnabled bool, detected bool) error {

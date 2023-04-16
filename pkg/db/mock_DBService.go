@@ -20,6 +20,49 @@ func (_m *MockDBService) EXPECT() *MockDBService_Expecter {
 	return &MockDBService_Expecter{mock: &_m.Mock}
 }
 
+// AddNewRecordToDeviceTable provides a mock function with given fields: tableName, isEnabled
+func (_m *MockDBService) AddNewRecordToDeviceTable(tableName string, isEnabled bool) error {
+	ret := _m.Called(tableName, isEnabled)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, bool) error); ok {
+		r0 = rf(tableName, isEnabled)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockDBService_AddNewRecordToDeviceTable_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddNewRecordToDeviceTable'
+type MockDBService_AddNewRecordToDeviceTable_Call struct {
+	*mock.Call
+}
+
+// AddNewRecordToDeviceTable is a helper method to define mock.On call
+//   - tableName string
+//   - isEnabled bool
+func (_e *MockDBService_Expecter) AddNewRecordToDeviceTable(tableName interface{}, isEnabled interface{}) *MockDBService_AddNewRecordToDeviceTable_Call {
+	return &MockDBService_AddNewRecordToDeviceTable_Call{Call: _e.mock.On("AddNewRecordToDeviceTable", tableName, isEnabled)}
+}
+
+func (_c *MockDBService_AddNewRecordToDeviceTable_Call) Run(run func(tableName string, isEnabled bool)) *MockDBService_AddNewRecordToDeviceTable_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(string), args[1].(bool))
+	})
+	return _c
+}
+
+func (_c *MockDBService_AddNewRecordToDeviceTable_Call) Return(_a0 error) *MockDBService_AddNewRecordToDeviceTable_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockDBService_AddNewRecordToDeviceTable_Call) RunAndReturn(run func(string, bool) error) *MockDBService_AddNewRecordToDeviceTable_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // AddNewRecordToSensorTable provides a mock function with given fields: tableName, isEnabled, detected
 func (_m *MockDBService) AddNewRecordToSensorTable(tableName string, isEnabled bool, detected bool) error {
 	ret := _m.Called(tableName, isEnabled, detected)
@@ -60,6 +103,61 @@ func (_c *MockDBService_AddNewRecordToSensorTable_Call) Return(_a0 error) *MockD
 }
 
 func (_c *MockDBService_AddNewRecordToSensorTable_Call) RunAndReturn(run func(string, bool, bool) error) *MockDBService_AddNewRecordToSensorTable_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetLatestDeviceDataByTableNameLimitN provides a mock function with given fields: tableName, limit
+func (_m *MockDBService) GetLatestDeviceDataByTableNameLimitN(tableName string, limit int) ([]domain.DeviceData, error) {
+	ret := _m.Called(tableName, limit)
+
+	var r0 []domain.DeviceData
+	var r1 error
+	if rf, ok := ret.Get(0).(func(string, int) ([]domain.DeviceData, error)); ok {
+		return rf(tableName, limit)
+	}
+	if rf, ok := ret.Get(0).(func(string, int) []domain.DeviceData); ok {
+		r0 = rf(tableName, limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.DeviceData)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(string, int) error); ok {
+		r1 = rf(tableName, limit)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDBService_GetLatestDeviceDataByTableNameLimitN_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetLatestDeviceDataByTableNameLimitN'
+type MockDBService_GetLatestDeviceDataByTableNameLimitN_Call struct {
+	*mock.Call
+}
+
+// GetLatestDeviceDataByTableNameLimitN is a helper method to define mock.On call
+//   - tableName string
+//   - limit int
+func (_e *MockDBService_Expecter) GetLatestDeviceDataByTableNameLimitN(tableName interface{}, limit interface{}) *MockDBService_GetLatestDeviceDataByTableNameLimitN_Call {
+	return &MockDBService_GetLatestDeviceDataByTableNameLimitN_Call{Call: _e.mock.On("GetLatestDeviceDataByTableNameLimitN", tableName, limit)}
+}
+
+func (_c *MockDBService_GetLatestDeviceDataByTableNameLimitN_Call) Run(run func(tableName string, limit int)) *MockDBService_GetLatestDeviceDataByTableNameLimitN_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(string), args[1].(int))
+	})
+	return _c
+}
+
+func (_c *MockDBService_GetLatestDeviceDataByTableNameLimitN_Call) Return(_a0 []domain.DeviceData, _a1 error) *MockDBService_GetLatestDeviceDataByTableNameLimitN_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDBService_GetLatestDeviceDataByTableNameLimitN_Call) RunAndReturn(run func(string, int) ([]domain.DeviceData, error)) *MockDBService_GetLatestDeviceDataByTableNameLimitN_Call {
 	_c.Call.Return(run)
 	return _c
 }

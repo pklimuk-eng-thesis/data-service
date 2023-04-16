@@ -9,6 +9,8 @@ import (
 type DBService interface {
 	GetLatestSensorDataByTableNameLimitN(tableName string, limit int) ([]domain.SensorData, error)
 	AddNewRecordToSensorTable(tableName string, isEnabled bool, detected bool) error
+	GetLatestDeviceDataByTableNameLimitN(tableName string, limit int) ([]domain.DeviceData, error)
+	AddNewRecordToDeviceTable(tableName string, isEnabled bool) error
 }
 
 type dbService struct {
