@@ -20,6 +20,51 @@ func (_m *MockDBService) EXPECT() *MockDBService_Expecter {
 	return &MockDBService_Expecter{mock: &_m.Mock}
 }
 
+// AddNewRecordToACTable provides a mock function with given fields: tableName, isEnabled, temperature, humidity
+func (_m *MockDBService) AddNewRecordToACTable(tableName string, isEnabled bool, temperature float32, humidity float32) error {
+	ret := _m.Called(tableName, isEnabled, temperature, humidity)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, bool, float32, float32) error); ok {
+		r0 = rf(tableName, isEnabled, temperature, humidity)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// MockDBService_AddNewRecordToACTable_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddNewRecordToACTable'
+type MockDBService_AddNewRecordToACTable_Call struct {
+	*mock.Call
+}
+
+// AddNewRecordToACTable is a helper method to define mock.On call
+//   - tableName string
+//   - isEnabled bool
+//   - temperature float32
+//   - humidity float32
+func (_e *MockDBService_Expecter) AddNewRecordToACTable(tableName interface{}, isEnabled interface{}, temperature interface{}, humidity interface{}) *MockDBService_AddNewRecordToACTable_Call {
+	return &MockDBService_AddNewRecordToACTable_Call{Call: _e.mock.On("AddNewRecordToACTable", tableName, isEnabled, temperature, humidity)}
+}
+
+func (_c *MockDBService_AddNewRecordToACTable_Call) Run(run func(tableName string, isEnabled bool, temperature float32, humidity float32)) *MockDBService_AddNewRecordToACTable_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(string), args[1].(bool), args[2].(float32), args[3].(float32))
+	})
+	return _c
+}
+
+func (_c *MockDBService_AddNewRecordToACTable_Call) Return(_a0 error) *MockDBService_AddNewRecordToACTable_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *MockDBService_AddNewRecordToACTable_Call) RunAndReturn(run func(string, bool, float32, float32) error) *MockDBService_AddNewRecordToACTable_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // AddNewRecordToDeviceTable provides a mock function with given fields: tableName, isEnabled
 func (_m *MockDBService) AddNewRecordToDeviceTable(tableName string, isEnabled bool) error {
 	ret := _m.Called(tableName, isEnabled)
@@ -103,6 +148,61 @@ func (_c *MockDBService_AddNewRecordToSensorTable_Call) Return(_a0 error) *MockD
 }
 
 func (_c *MockDBService_AddNewRecordToSensorTable_Call) RunAndReturn(run func(string, bool, bool) error) *MockDBService_AddNewRecordToSensorTable_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GetLatestACDataByTableNameLimitN provides a mock function with given fields: tableName, limit
+func (_m *MockDBService) GetLatestACDataByTableNameLimitN(tableName string, limit int) ([]domain.ACData, error) {
+	ret := _m.Called(tableName, limit)
+
+	var r0 []domain.ACData
+	var r1 error
+	if rf, ok := ret.Get(0).(func(string, int) ([]domain.ACData, error)); ok {
+		return rf(tableName, limit)
+	}
+	if rf, ok := ret.Get(0).(func(string, int) []domain.ACData); ok {
+		r0 = rf(tableName, limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.ACData)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(string, int) error); ok {
+		r1 = rf(tableName, limit)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockDBService_GetLatestACDataByTableNameLimitN_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetLatestACDataByTableNameLimitN'
+type MockDBService_GetLatestACDataByTableNameLimitN_Call struct {
+	*mock.Call
+}
+
+// GetLatestACDataByTableNameLimitN is a helper method to define mock.On call
+//   - tableName string
+//   - limit int
+func (_e *MockDBService_Expecter) GetLatestACDataByTableNameLimitN(tableName interface{}, limit interface{}) *MockDBService_GetLatestACDataByTableNameLimitN_Call {
+	return &MockDBService_GetLatestACDataByTableNameLimitN_Call{Call: _e.mock.On("GetLatestACDataByTableNameLimitN", tableName, limit)}
+}
+
+func (_c *MockDBService_GetLatestACDataByTableNameLimitN_Call) Run(run func(tableName string, limit int)) *MockDBService_GetLatestACDataByTableNameLimitN_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(string), args[1].(int))
+	})
+	return _c
+}
+
+func (_c *MockDBService_GetLatestACDataByTableNameLimitN_Call) Return(_a0 []domain.ACData, _a1 error) *MockDBService_GetLatestACDataByTableNameLimitN_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockDBService_GetLatestACDataByTableNameLimitN_Call) RunAndReturn(run func(string, int) ([]domain.ACData, error)) *MockDBService_GetLatestACDataByTableNameLimitN_Call {
 	_c.Call.Return(run)
 	return _c
 }

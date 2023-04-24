@@ -72,7 +72,7 @@ func TestGetLatestSensorDataByTableNameLimitN_TimeParsingFailure(t *testing.T) {
 	assert.Error(t, err)
 }
 
-func TestGetLatestDeviceDataByTableNameLimitN(t *testing.T) {
+func TestGetLatestDeviceDataByTableNameLimitN_Success(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	assert.NoError(t, err)
 	defer db.Close()
@@ -175,5 +175,79 @@ func TestAddNewRecordToDeviceTable_DBFailure(t *testing.T) {
 
 	service := &dbService{DB: dbx}
 	err = service.AddNewRecordToDeviceTable("test_table", true)
+	assert.Error(t, err)
+}
+
+func TestGetLatestACDataByTableNameLimitN_Success(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	assert.NoError(t, err)
+	defer db.Close()
+
+	dbx := sqlx.NewDb(db, "sqlmock")
+
+	rows := sqlmock.NewRows([]string{"id", "created_at", "is_enabled", "temperature", "humidity"}).
+		AddRow(1, "2023-01-01T00:00:00Z", true, 20.0, 40.0).
+		AddRow(2, "2023-01-02T00:00:00Z", false, 25.0, 50.0)
+	mock.ExpectQuery("SELECT \\* FROM smart_home.test_table ORDER BY created_at DESC LIMIT \\$1").
+		WithArgs(2).
+		WillReturnRows(rows)
+
+	service := &dbService{DB: dbx}
+	data, err := service.GetLatestACDataByTableNameLimitN("test_table", 2)
+	assert.NoError(t, err)
+
+	expected := []domain.ACData{
+		{ID: 1, CreatedAt: time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC), IsEnabled: true, Temperature: 20.0, Humidity: 40.0},
+		{ID: 2, CreatedAt: time.Date(2023, 1, 2, 0, 0, 0, 0, time.UTC), IsEnabled: false, Temperature: 25.0, Humidity: 50.0},
+	}
+
+	assert.Equal(t, expected, data)
+}
+
+func TestGetLatestACDataByTableNameLimitN_DBFailure(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	assert.NoError(t, err)
+	defer db.Close()
+
+	dbx := sqlx.NewDb(db, "sqlmock")
+
+	mock.ExpectQuery("SELECT \\* FROM smart_home.test_table ORDER BY created_at DESC LIMIT \\$1").
+		WithArgs(2).
+		WillReturnError(fmt.Errorf("test error"))
+
+	service := &dbService{DB: dbx}
+	_, err = service.GetLatestACDataByTableNameLimitN("test_table", 2)
+	assert.Error(t, err)
+}
+
+func TestAddNewRecordToACTable_Success(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	assert.NoError(t, err)
+	defer db.Close()
+
+	dbx := sqlx.NewDb(db, "sqlmock")
+
+	mock.ExpectExec("INSERT INTO smart_home.test_table \\(is_enabled, temperature, humidity\\) VALUES \\(\\$1, \\$2, \\$3\\)").
+		WithArgs(true, 20.0, 40.0).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+
+	service := &dbService{DB: dbx}
+	err = service.AddNewRecordToACTable("test_table", true, 20.0, 40.0)
+	assert.NoError(t, err)
+}
+
+func TestAddNewRecordToACTable_DBFailure(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	assert.NoError(t, err)
+	defer db.Close()
+
+	dbx := sqlx.NewDb(db, "sqlmock")
+
+	mock.ExpectExec("INSERT INTO smart_home.test_table \\(is_enabled, temperature, humidity\\) VALUES \\(\\$1, \\$2, \\$3\\)").
+		WithArgs(true, 20.0, 40.0).
+		WillReturnError(fmt.Errorf("test error"))
+
+	service := &dbService{DB: dbx}
+	err = service.AddNewRecordToACTable("test_table", true, 20.0, 40.0)
 	assert.Error(t, err)
 }

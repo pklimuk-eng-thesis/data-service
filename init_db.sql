@@ -45,3 +45,13 @@ CREATE TABLE IF NOT EXISTS smart_plug(
 );
 
 CREATE INDEX idx_smart_plug_created_at ON smart_plug(created_at);
+
+CREATE TABLE IF NOT EXISTS ac(
+	id SERIAL PRIMARY KEY,
+	created_at timestamp NOT NULL DEFAULT now(),
+	is_enabled BOOLEAN,
+  temperature DECIMAL(5,2),
+  humidity DECIMAL(5,2)
+);
+
+CREATE INDEX idx_ac_created_at ON ac(created_at);

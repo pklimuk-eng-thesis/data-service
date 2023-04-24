@@ -11,6 +11,8 @@ type DBService interface {
 	AddNewRecordToSensorTable(tableName string, isEnabled bool, detected bool) error
 	GetLatestDeviceDataByTableNameLimitN(tableName string, limit int) ([]domain.DeviceData, error)
 	AddNewRecordToDeviceTable(tableName string, isEnabled bool) error
+	GetLatestACDataByTableNameLimitN(tableName string, limit int) ([]domain.ACData, error)
+	AddNewRecordToACTable(tableName string, isEnabled bool, temperature float32, humidity float32) error
 }
 
 type dbService struct {

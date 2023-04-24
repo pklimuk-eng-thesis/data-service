@@ -5,6 +5,7 @@ import (
 	"github.com/pklimuk-eng-thesis/data-service/pkg/domain"
 )
 
+//go:generate --name DeviceService --output mock_deviceService.go
 type DeviceService interface {
 	GetLatestDeviceRecordsLimitN(limit int) ([]domain.DeviceData, error)
 	AddNewRecordToDeviceTable(isEnabled bool) error
