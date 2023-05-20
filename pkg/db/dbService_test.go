@@ -11,6 +11,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestNewDBService(t *testing.T) {
+	mockDB := &sqlx.DB{}
+	dbService := NewDBService(mockDB)
+
+	assert.NotNil(t, dbService)
+}
+
 func TestGetLatestSensorDataByTableNameLimitN_Success(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	assert.NoError(t, err)
